@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>东北雨姐 × 安芸庆 GalGame Web</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #111;
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    #game {
+      width: 100vw;
+      max-width: 900px;
+      height: 100vh;
+      max-height: 600px;
+      background: #000;
+      position: relative;
+      overflow: hidden;
+    }
+    #bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.95);
+    }
+    #textbox {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 12px 16px;
+      background: rgba(0,0,0,0.55);
+      color: #fff;
+    }
+    #name {
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+    #text {
+      min-height: 80px;
+      white-space: pre-line;
+    }
+    #buttons {
+      margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    button {
+      border: none;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    #nextBtn {
+      background: #ff7da8;
+      color: #fff;
+    }
+    .choiceBtn {
+      background: #444;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div id="game">
+    <div id="bg"></div>
+    <div id="textbox">
+      <div id="name"></div>
+      <div id="text"></div>
+      <div id="buttons">
+        <button id="nextBtn">▶ 次へ</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ===== ここが Java から自動変換したシナリオ本体 ===== */
+const scenes = [
+  {  // 0
+    bg: "images/bg_school_road_snow.jpg",
+    lines: [
+      "東北の冬の朝、通学路は白く凍っていた。",
+      "息を吐くたびに、白い煙が空に溶けていく。"
+    ]
+  },
+  {  // 1
+    bg: "images/bg_school_road_snow.jpg",
+    lines: [
+      "安芸庆はマフラーに顔を埋めながら、いつもより少し早く家を出た。",
+      "滑りやすい雪道に気を付けながら、足元ばかり見て歩いている。"
+    ]
+  },
+  {  // 2
+    bg: "images/bg_school_road_snow.jpg",
+    lines: [
+      "そのとき、背後から慌ただしい足音が近づいてきた。",
+      "「わ、ちょっと待っ──」という声が聞こえた直後、誰かとぶつかった。"
+    ]
+  },
+  {  // 3
+    bg: "images/bg_school_road_snow.jpg",
+    lines: [
+      "庆の体が前に傾き、バランスを崩しかける。",
+      "腕をつかんだのは、小さくて温かい手だった。"
+    ]
+  },
+  {  // 4
+    bg: "images/bg_school_road_snow.jpg",
+    lines: [
+      "「ご、ごめん！大丈夫！？」",
+      "慌てた声の主は、雪の結晶が似合いそうな黒髪の女の子だった。"
+    ]
+  },
+  {  // 5
+    bg: "images/bg_school_road_snow.jpg",
+    lines: [
+      "东北雨姐。",
+      "この街で生まれ育ったらしいが、初めて見る顔だと庆は思った。"
+    ]
+  },
+  {  // 6
+    bg: "images/bg_school_road_snow.jpg",
+    lines: [
+      "彼女は周りの雪を見て、ほっとしたように笑った。",
+      "「ここ、いつも凍るからさ。慣れてないと危ないんだよ。」"
+    ]
+  },
+  {  // 7
+    bg: "images/bg_school_road_snow.jpg",
+    lines: [
+      "庆はまだ心臓がドキドキしていて、うまく言葉が出てこない。",
+      "「……助かった。ありがとう。」と、とにかく礼だけは言った。"
+    ]
+  },
+  {  // 8
+    bg: "images/bg_school_road_snow.jpg",
+    lines: [
+      "「先輩でしょ？足元くらいちゃんと見ないと。」",
+      "雨姐は軽口を叩きながら、庆の手を離そうとはしなかった。"
+    ]
+  },
+  {  // 9
+    bg: "images/bg_school_road_snow.jpg",
+    lines: [
+      "少し遅れて後ろから姜皓文が走ってきた。",
+      "「おい庆！また転びかけてた？朝から何やってんの。」"
+    ]
+  },
+  {  // 10
+    bg: "images/bg_school_road_snow.jpg",
+    lines: [
+      "皓文は雨姐の手元をチラリと見て、怪訝そうに首をかしげる。",
+      "「新顔？……ってか、お前、めっちゃしっかり支えてるな。」"
+    ]
+  },
+  {  // 11
+    bg: "images/bg_school_road_snow.jpg",
+    lines: [
+      "雨姐は一瞬だけ表情を固くした。",
+      "そのあと、何事もなかったように手を離し、「普通だよ」と笑ってごまかした。"
+    ]
+  },
+  {  // 12
+    bg: "images/bg_school_road_snow.jpg",
+    lines: [
+      "庆はその一瞬の硬さに、なんとなく違和感を覚えた。",
+      "さっきから、彼女の視線がやたらと「地面と他人の足」を気にしている気がする。"
+    ]
+  },
+  {  // 13
+    bg: "images/bg_school_road_snow.jpg",
+    lines: [
+      "「とりあえず、学校まで一緒に行こう。ここからまだ滑りやすいし。」",
+      "雨姐がそう提案すると、皓文はニヤニヤしながら庆の肩を小突いた。"
+    ]
+  },
+  {  // 14
+    bg: "images/bg_school_road_snow.jpg",
+    lines: [
+      "白い通学路を三人で歩き出す。",
+      "この日から、庆の日常は少しずつ、確実に変わり始めた。<br><br>——第1章 終了——"
+    ]
+  },
+  {  // 15
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "昼の講義が終わった教室には、まだ人の気配が残っていた。",
+      "窓から差し込む冬の光が、机の上のノートを白く照らしている。"
+    ]
+  },
+  {  // 16
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "安芸庆が席でレポートを書いていると、前の方で何やらざわめきが起きた。",
+      "「ねえねえ、あの子、編入生らしいよ。」という声が耳に入る。"
+    ]
+  },
+  {  // 17
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "視線を上げると、教壇の近くで雨姐が数人に囲まれていた。",
+      "彼女は明るく笑いながら自己紹介カードを見せている。"
+    ]
+  },
+  {  // 18
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "「东北雨姐です。雪国出身なんで、滑りそうになったら任せてください。」",
+      "その一言に、クラスの空気が少し和らいだ。"
+    ]
+  },
+  {  // 19
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "庆はそのやり取りを見ながら、朝の通学路を思い出していた。",
+      "慣れた足運びと、ほんの一瞬見せた固い表情。"
+    ]
+  },
+  {  // 20
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "休み時間になり、皓文が庆の机に腰をかけた。",
+      "「なあ庆。さっきの子、朝お前を助けてた子だよな？」"
+    ]
+  },
+  {  // 21
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "「そうだな。」庆はノートを閉じ、窓の外に視線をやる。",
+      "中庭では、まだ小さな雪の塊が残っていた。"
+    ]
+  },
+  {  // 22
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "そのとき、教室のドアが静かに開いた。",
+      "雨姐が教室に入ってきて、周りの足元を確認するように一瞬視線を落とす。"
+    ]
+  },
+  {  // 23
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "彼女は空いている席を探し、庆の隣の列に座った。",
+      "椅子を引くときも、絶妙な距離感で前の人の足を避けている。"
+    ]
+  },
+  {  // 24
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "「さっきはありがとな。」庆が声をかけると、雨姐は少し驚いたように笑った。",
+      "「いえいえ。先輩が派手に転んだら、こっちも恥ずかしいし。」<br><br>——第2章 続く——"
+    ]
+  },
+  {  // 25
+    bg: "images/bg_stairs.jpg",
+    lines: [
+      "数日後、昼休みが終わる少し前。",
+      "廊下には、次の講義に向かう学生たちの足音が響いていた。"
+    ]
+  },
+  {  // 26
+    bg: "images/bg_stairs.jpg",
+    lines: [
+      "庆と雨姐は、次の教室へ向かうため階段の前に立っていた。",
+      "上の階からは、ドタバタと複数の足音が降りてくる。"
+    ]
+  },
+  {  // 27
+    bg: "images/bg_stairs.jpg",
+    lines: [
+      "「……やっぱり混んできたね。」",
+      "雨姐の声が、さっきまでより一段低くなる。"
+    ]
+  },
+  {  // 28
+    bg: "images/bg_stairs.jpg",
+    lines: [
+      "庆が横を見ると、雨姐の指先が小刻みに震えていた。",
+      "足元をじっと見つめ、階段の一段目から動けなくなっている。"
+    ]
+  },
+  {  // 29
+    bg: "images/bg_stairs.jpg",
+    lines: [
+      "「昔さ、混んだ階段で押されて、一回転んだことがあるんだ。」",
+      "「そのとき、踏まれた感触がずっと消えなくて。」"
+    ]
+  },
+  {  // 30
+    bg: "images/bg_stairs.jpg",
+    lines: [
+      "庆は少し黙ったあと、自分の手を差し出した。",
+      "「じゃあ今日は、俺が前を歩く。俺の背中だけ見てろ。」"
+    ]
+  },
+  {  // 31
+    bg: "images/bg_stairs.jpg",
+    lines: [
+      "雨姐は戸惑いながらも、その手をぎゅっと握る。",
+      "手のひらは冷たいのに、その握力だけは驚くほど強かった。"
+    ]
+  },
+  {  // 32
+    bg: "images/bg_stairs.jpg",
+    lines: [
+      "庆はゆっくりと階段を上り始めた。",
+      "後ろから伝わる小さな震えを感じながら、一段一段、慎重に歩く。"
+    ]
+  },
+  {  // 33
+    bg: "images/bg_stairs.jpg",
+    lines: [
+      "ようやく階段を登り切る頃には、雨姐の息は少し荒くなっていた。",
+      "けれど、彼女の手は最後まで庆の手を離さなかった。"
+    ]
+  },
+  {  // 34
+    bg: "images/bg_stairs.jpg",
+    lines: [
+      "その様子を、階段の影からじっと見ている視線があった。",
+      "腕を組んだ东北张佳豪が、眉間にしわを寄せて二人の背中を見つめていた。<br><br>——第3章 終了——"
+    ]
+  },
+  {  // 35
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "夕暮れの教室は、昼間とは違う静けさに包まれていた。",
+      "窓から入り込むオレンジ色の光が、机の上に長い影を落としている。"
+    ]
+  },
+  {  // 36
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "安芸庆と雨姐は、翌週のレポートを並んで書いていた。",
+      "教室には、数人の学生とノートをめくる音だけが残っている。"
+    ]
+  },
+  {  // 37
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "「さっきの階段、よく頑張ったな。」",
+      "庆がそう言うと、雨姐はペンをいじりながら視線をそらした。"
+    ]
+  },
+  {  // 38
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "「先輩が前にいてくれたからだよ。」",
+      "彼女はそう言ってから、小さく付け足した。「……ありがと。」"
+    ]
+  },
+  {  // 39
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "ふと教室のドアが開き、背の高い男子が顔を出した。",
+      "「雨姐、ここにいたのか。」"
+    ]
+  },
+  {  // 40
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "东北张佳豪。雨姐の兄であり、この大学のOBでもある。",
+      "彼は妹を見つけると、すぐに教室の中へ入ってきた。"
+    ]
+  },
+  {  // 41
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "「兄ちゃん？」雨姐が驚いたように立ち上がる。",
+      "张佳豪は庆の姿を確認すると、目を細めた。"
+    ]
+  },
+  {  // 42
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "「お前が……安芸庆か。」",
+      "その声には、明らかに警戒がこもっている。"
+    ]
+  },
+  {  // 43
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "「うちの妹に変なことしてないだろうな。」",
+      "庆は椅子から立ち上がり、その視線をまっすぐ受け止めた。"
+    ]
+  },
+  {  // 44
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "「してません。ただ、一緒に階段を上っただけです。」",
+      "その返事に、张佳豪はわずかに表情を揺らした。<br><br>——第4章 終了——"
+    ]
+  },
+  {  // 45
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "翌日、キャンパス内のラウンジ代わりのスペース。",
+      "窓際の席で、庆と皓文が紙コップのコーヒーを片手に座っていた。"
+    ]
+  },
+  {  // 46
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "「でさ。」皓文がニヤつきながら身を乗り出す。",
+      "「お前、雨姐ちゃんのこと、もう好きだろ。」"
+    ]
+  },
+  {  // 47
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "庆はむっとしてストローをかむ。",
+      "「そういう話を大声で言うな。」"
+    ]
+  },
+  {  // 48
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "「放っておけないって顔してる。」",
+      "皓文のからかい半分の言葉は、図星すぎて反論しづらい。"
+    ]
+  },
+  {  // 49
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "「怖いのに、一歩踏み出そうとしてるところが……」",
+      "庆はナプキンをいじりながらつぶやく。「見てられないんだよ。」"
+    ]
+  },
+  {  // 50
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "「それ、完全に恋か、変な責任感かのどっちかだな。」",
+      "皓文は半分ふざけ、半分本気の声で言う。"
+    ]
+  },
+  {  // 51
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "「まずはさ。」皓文は真顔になった。",
+      "「雨姐ちゃんの『怖い』を、ちゃんと最後まで聞いてやれよ。」"
+    ]
+  },
+  {  // 52
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "「途中までしか聞いてないってことは、まだ本当のとこまでは話せてないってこと。」",
+      "「それでもそばにいるか、試されてるかもよ。」"
+    ]
+  },
+  {  // 53
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "庆は黙り込み、コーヒーの表面をぼんやり見つめた。",
+      "本当の気持ちから、少しだけ目をそらしていたのかもしれない。"
+    ]
+  },
+  {  // 54
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "「……頼りにしてる。」庆がそう言うと、皓文は照れ隠しに笑った。",
+      "窓の外では、少しずつ雪が解け始めていた。<br><br>——第5章 終了——"
+    ]
+  },
+  {  // 55
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "昼休み、中庭にはまだところどころ雪が残っていた。",
+      "ベンチ近くの通路は、学生たちの足で雪が踏み固められている。"
+    ]
+  },
+  {  // 56
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "安芸庆と雨姐は、自販機の前でホットドリンクを選んでいた。",
+      "「どれにする？」と聞くと、雨姐は迷わず缶ココアを選ぶ。"
+    ]
+  },
+  {  // 57
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "「甘いの、落ち着くんだよね。」",
+      "缶を両手で持つ姿は、いつものしっかり者とは少し違って見える。"
+    ]
+  },
+  {  // 58
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "少し離れた場所では、サークル勧誘のビラを配る学生たちが行き交っていた。",
+      "人の流れの中に、たくさんの足と靴が見える。"
+    ]
+  },
+  {  // 59
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "「……行ってみようかな。」",
+      "雨姐がぽつりとつぶやいた。視線の先には、人混みがある。"
+    ]
+  },
+  {  // 60
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "「無理はするな。」庆が言うと、彼女は首を振る。",
+      "「先輩と一緒なら、多分大丈夫。」"
+    ]
+  },
+  {  // 61
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "二人は人の流れの端をゆっくり歩き始めた。",
+      "庆は少し前に出て、周りの人との距離を調整しながら進む。"
+    ]
+  },
+  {  // 62
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "誰かの足が近づくたび、雨姐の肩がぴくっと震える。",
+      "缶ココアを握る手に力を込め、視線を地面から上げようと必死だ。"
+    ]
+  },
+  {  // 63
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "「上、見てろ。」庆は前を向いたまま、小さく言った。",
+      "「空と俺の背中だけ見てればいい。」"
+    ]
+  },
+  {  // 64
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "広場の向こう側までたどり着いたとき、雨姐は大きく息を吐いた。",
+      "「次は、階段ももうちょっと頑張ってみる。」<br><br>——第6章 終了——"
+    ]
+  },
+  {  // 65
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "試験が近づくにつれて、キャンパスの夜は静かさを増していた。",
+      "自習室の明かりだけが、廊下にぼんやりと漏れている。"
+    ]
+  },
+  {  // 66
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "安芸庆はノートと参考書を広げ、難しい問題とにらめっこしていた。",
+      "脳の奥がじんじんするような疲労が溜まっている。"
+    ]
+  },
+  {  // 67
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "ドアが静かに開き、雨姐が顔を出した。",
+      "「先輩、まだ起きてる？」"
+    ]
+  },
+  {  // 68
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "「今来たとこだ。」庆はそう言って席を指さす。",
+      "「お前も勉強か？」"
+    ]
+  },
+  {  // 69
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "雨姐は隣の席に座り、ノートを開いた。",
+      "けれどペンはなかなか動かない。"
+    ]
+  },
+  {  // 70
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "「最近、先輩もすごく忙しそうでさ。」",
+      "雨姐はペン先を見つめながら、小さくつぶやく。"
+    ]
+  },
+  {  // 71
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "「まあ、試験前だしな。」庆は苦笑した。",
+      "「お前だってレポート山ほどあるだろ。」"
+    ]
+  },
+  {  // 72
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "「うん。でも……一緒にいる時間、前より減ったなって。」",
+      "雨姐の声には、不安が混じっていた。"
+    ]
+  },
+  {  // 73
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "庆は返す言葉に詰まった。",
+      "自分も同じことを感じていたからだ。"
+    ]
+  },
+  {  // 74
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "「試験が終わったら、また前みたいに歩こう。」庆がそう約束すると、",
+      "雨姐は少し安心したように笑った。<br><br>——第7章 終了——"
+    ]
+  },
+  {  // 75
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "試験直前の数日間、庆は自習とサークルの仕事で手一杯になっていた。",
+      "メッセージも「今忙しい」の一言で済ませることが増えた。"
+    ]
+  },
+  {  // 76
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "放課後の教室で、雨姐は一人でノートをまとめていた。",
+      "机の上には、庆からの未読メッセージがいくつか並んでいる。"
+    ]
+  },
+  {  // 77
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "そこへ、ようやく庆が教室に入ってきた。",
+      "「悪い、遅くなった。」"
+    ]
+  },
+  {  // 78
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "雨姐は顔を上げたが、その表情はいつもより冷たかった。",
+      "「忙しいなら、来なくてもよかったのに。」"
+    ]
+  },
+  {  // 79
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "「試験前なんだから仕方ないだろ。」",
+      "庆も思わず声を荒げてしまう。"
+    ]
+  },
+  {  // 80
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "「先輩がいないと怖い場所、まだたくさんある。」",
+      "「でも先輩にとって私は、時間を奪う存在なのかなって……。」"
+    ]
+  },
+  {  // 81
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "その言葉は、予想以上に痛かった。",
+      "庆は一瞬、自分を守るための反論を考えてしまう。"
+    ]
+  },
+  {  // 82
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "「……そんなふうに思ってたのか。」",
+      "結局出てきたのは、それだけの声だった。"
+    ]
+  },
+  {  // 83
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "しばらく沈黙が続き、雨姐は立ち上がった。",
+      "「ごめん。今日は先に帰るね。」"
+    ]
+  },
+  {  // 84
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "教室を出ていく彼女の背中を、庆は呼び止められなかった。",
+      "夕暮れの光が教室を染める中、胸の中に後悔の予感が広がっていく。<br><br>——第8章 終了——"
+    ]
+  },
+  {  // 85
+    bg: "images/bg_school_road_snow.jpg",
+    lines: [
+      "翌日、雪は少し解けかけていたが、空気の冷たさは変わらなかった。",
+      "庆は早めに通学路へ向かい、あの日と同じ場所で立ち止まっていた。"
+    ]
+  },
+  {  // 86
+    bg: "images/bg_school_road_snow.jpg",
+    lines: [
+      "「先輩？」",
+      "後ろから聞こえた声に振り向くと、そこに雨姐が立っていた。"
+    ]
+  },
+  {  // 87
+    bg: "images/bg_school_road_snow.jpg",
+    lines: [
+      "「昨日は、悪かった。」庆が深呼吸をして言う。",
+      "「お前の不安をちゃんと聞かないで、自分の都合だけで話してた。」"
+    ]
+  },
+  {  // 88
+    bg: "images/bg_school_road_snow.jpg",
+    lines: [
+      "雨姐は驚いたように目を瞬かせ、それからゆっくり首を振った。",
+      "「私のほうこそ、ごめん。」"
+    ]
+  },
+  {  // 89
+    bg: "images/bg_school_road_snow.jpg",
+    lines: [
+      "「先輩に頼りすぎてる不安を、ちゃんと言葉にできなくて。」",
+      "「嫌われるのが怖くて、変な言い方になっちゃった。」"
+    ]
+  },
+  {  // 90
+    bg: "images/bg_school_road_snow.jpg",
+    lines: [
+      "「不安なのは、お互い様だな。」",
+      "庆が苦笑すると、雨姐も少しだけ笑った。"
+    ]
+  },
+  {  // 91
+    bg: "images/bg_school_road_snow.jpg",
+    lines: [
+      "「先輩が忙しい日でも、私、自分でできること増やしていくから。」",
+      "「だから、そのかわり……たまにでいいから、ちゃんと褒めてよ。」"
+    ]
+  },
+  {  // 92
+    bg: "images/bg_school_road_snow.jpg",
+    lines: [
+      "庆は思わず吹き出し、「分かった。約束する。」と答えた。",
+      "雪解けの道を踏みしめる足音が、前より少し軽く響く。"
+    ]
+  },
+  {  // 93
+    bg: "images/bg_school_road_snow.jpg",
+    lines: [
+      "「この道、大学まで一人で歩いてみるか？」",
+      "庆の提案に、雨姐は少し考えてから首を横に振った。"
+    ]
+  },
+  {  // 94
+    bg: "images/bg_school_road_snow.jpg",
+    lines: [
+      "「まだ無理。でも……先輩の一歩後ろなら、きっと歩ける。」",
+      "二人は並んで歩き出した。<br><br>——第9章 終了——"
+    ]
+  },
+  {  // 95
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "試験が終わり、キャンパスにはようやく余裕の空気が戻ってきた。",
+      "教室では、レポートの話や春休みの予定で盛り上がる声が聞こえる。"
+    ]
+  },
+  {  // 96
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "庆、雨姐、皓文の三人は、窓際の席でいつものように雑談していた。",
+      "そこへ、久しぶりに张佳豪が顔を出す。"
+    ]
+  },
+  {  // 97
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "「試験、お疲れ。」",
+      "不器用なねぎらいの言葉に、雨姐は少し嬉しそうに笑った。"
+    ]
+  },
+  {  // 98
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "张佳豪は庆のほうをちらりと見る。",
+      "「妹、ちゃんと自分の足で歩けてるか？」"
+    ]
+  },
+  {  // 99
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "「前よりは、な。」庆が答えると、雨姐は誇らしげに胸を張った。",
+      "「階段も、人混みも、ちょっとだけ平気になったよ。」"
+    ]
+  },
+  {  // 100
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "「もちろん先輩が前を歩いてくれたおかげだけど。」",
+      "その一言に、张佳豪の表情から少しずつ警戒が消えていく。"
+    ]
+  },
+  {  // 101
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "中庭では、新しいサークル勧誘の準備が始まっていた。",
+      "学内の雰囲気は、少しずつ春に向かっている。"
+    ]
+  },
+  {  // 102
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "「今のところは、合格だ。」张佳豪は庆の肩を軽く叩いた。",
+      "「妹のこと、これからも頼む。」"
+    ]
+  },
+  {  // 103
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "四人で窓の外を眺めながら、他愛もない会話が続いていく。",
+      "このバランスが、ずっと続けばいいと、誰もが少しだけ願っていた。"
+    ]
+  },
+  {  // 104
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "しかし、その頃、理事長室では一本の書類が静かに机に置かれていた。",
+      "「学内恋愛禁止規定、運用強化案」という文字が、冷たく光っていた。<br><br>——第10章 終了——"
+    ]
+  },
+  {  // 105
+    bg: "images/bg_gate_morning.jpg",
+    lines: [
+      "新学期の朝、校門の前にはいつもより多くの掲示が貼られていた。",
+      "「学内秩序の強化」という言葉が目立つ。"
+    ]
+  },
+  {  // 106
+    bg: "images/bg_gate_morning.jpg",
+    lines: [
+      "掲示板の中央には、新しい規定が大きく書かれていた。",
+      "──【学生間の私的交際の禁止】。"
+    ]
+  },
+  {  // 107
+    bg: "images/bg_gate_morning.jpg",
+    lines: [
+      "「……マジかよ。」庆は思わずつぶやいた。",
+      "雨姐との時間を否定するような文面だった。"
+    ]
+  },
+  {  // 108
+    bg: "images/bg_gate_morning.jpg",
+    lines: [
+      "そのとき、黒塗りの車が校門の前に静かに止まった。",
+      "スーツ姿の男──理事長の伊藤弘が降りてくる。"
+    ]
+  },
+  {  // 109
+    bg: "images/bg_gate_morning.jpg",
+    lines: [
+      "「大学は学問の場だ。」",
+      "「私情に流される者に未来はない。」"
+    ]
+  },
+  {  // 110
+    bg: "images/bg_gate_morning.jpg",
+    lines: [
+      "理事長は掲示板を見つめ、冷たい声でそう言い残すと校内へ歩いていった。",
+      "その背中は、冬の空よりもずっと冷たく見えた。"
+    ]
+  },
+  {  // 111
+    bg: "images/bg_gate_morning.jpg",
+    lines: [
+      "少し遅れて校門にやってきた雨姐は、貼り紙を見て固まった。",
+      "「これ……どういうこと？」"
+    ]
+  },
+  {  // 112
+    bg: "images/bg_gate_morning.jpg",
+    lines: [
+      "庆は拳を握りしめたまま答える。",
+      "「理事長の命令だ。理由は分からない。」"
+    ]
+  },
+  {  // 113
+    bg: "images/bg_gate_morning.jpg",
+    lines: [
+      "「こんなの……理不尽すぎる。」",
+      "雨姐の声は震えていた。"
+    ]
+  },
+  {  // 114
+    bg: "images/bg_gate_morning.jpg",
+    lines: [
+      "三人は、朝の冷たい空気の中で立ち尽くした。",
+      "それは、静かに始まる“戦い”の前触れだった。<br><br>——第11章 終了——"
+    ]
+  },
+  {  // 115
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "昼休み、いつもの教室に四人が集まっていた。",
+      "机の上には、規定のコピーが広げられている。"
+    ]
+  },
+  {  // 116
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "「要するに、恋愛したら停学ってことか。」",
+      "皓文がため息をついた。「アホかよ。」"
+    ]
+  },
+  {  // 117
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "张佳豪は腕を組んだまま、深く考え込んでいる。",
+      "「理事長は、昔から成績以外に興味がないやつだ。」"
+    ]
+  },
+  {  // 118
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "雨姐は紙を見つめながら、静かに言った。",
+      "「この規定……私たち狙いじゃない？」"
+    ]
+  },
+  {  // 119
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "「だからって従う気はない。」庆は拳を握りしめる。",
+      "「お前との時間まで、勝手に決められてたまるか。」"
+    ]
+  },
+  {  // 120
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "「正面からぶつかっても勝てない。」張佳豪が冷静に言う。",
+      "「まずは情報を集めて、弱点を探る。」"
+    ]
+  },
+  {  // 121
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "皓文がニヤリと笑った。",
+      "「つまり──表向きは“従うふり”しながら、裏で動くってことだな。」"
+    ]
+  },
+  {  // 122
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "「従う……ふり？」雨姐が首をかしげる。",
+      "皓文はわざとらしく肩をすくめた。「恋愛してないフリ、とか。」"
+    ]
+  },
+  {  // 123
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "その言葉に、庆と雨姐は同時に真っ赤になる。",
+      "张佳豪と皓文が同時に吹き出した。"
+    ]
+  },
+  {  // 124
+    bg: "images/bg_classroom_day.jpg",
+    lines: [
+      "「ふりでもなんでも、守るためには動くしかない。」",
+      "四人は固くうなずいた。<br><br>——第12章 終了——"
+    ]
+  },
+  {  // 125
+    bg: "images/bg_corridor.jpg",
+    lines: [
+      "放課後、庆は一人で理事長室の前に立っていた。",
+      "中からは、書類をめくる微かな音が聞こえる。"
+    ]
+  },
+  {  // 126
+    bg: "images/bg_corridor.jpg",
+    lines: [
+      "ノックすると、低い声が返ってきた。「入れ。」",
+      "庆は深呼吸してドアを開ける。"
+    ]
+  },
+  {  // 127
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "室内は整然としており、壁には賞状と成績表だけが並んでいた。",
+      "写真や家族の気配はどこにもない。"
+    ]
+  },
+  {  // 128
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "「学内恋愛禁止規定について、話がしたいです。」",
+      "庆の言葉に、理事長の眉がわずかに動いた。"
+    ]
+  },
+  {  // 129
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "「くだらん。」理事長は書類を机の端に押しやる。",
+      "「大学は結果を出す場所だ。感情も恋愛も不要。」"
+    ]
+  },
+  {  // 130
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "「それで傷つく人間がいてもいいんですか。」",
+      "庆が踏み込むと、理事長の視線が鋭くなる。"
+    ]
+  },
+  {  // 131
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "「弱い者は切り捨てられる。それが社会だ。」",
+      "「私の大学に、ぬるい感情は必要ない。」"
+    ]
+  },
+  {  // 132
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "庆は拳を握りしめた。",
+      "「それでも俺は、雨姐と一緒にいることを諦めません。」"
+    ]
+  },
+  {  // 133
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "「勝手にしろ。」理事長は冷たく言い放つ。",
+      "「規定に従えないなら、ここを去る覚悟をしておけ。」"
+    ]
+  },
+  {  // 134
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "庆は何も返さず、理事長室を後にした。",
+      "廊下の空気は、外の雪よりも冷たく感じられた。<br><br>——第13章 終了——"
+    ]
+  },
+  {  // 135
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "翌日、キャンパス中がざわついていた。",
+      "学生たちが掲示板の前に集まり、規定への不満を口にする。"
+    ]
+  },
+  {  // 136
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "「なんで恋愛禁止なんだよ！」",
+      "「おかしいだろ！」と怒声が上がる。"
+    ]
+  },
+  {  // 137
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "皓文は大声で周りの学生たちに説明していた。",
+      "「これは俺たち全員の問題だ！立ち上がらなきゃ！」"
+    ]
+  },
+  {  // 138
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "张佳豪もサークル仲間を動員し、反対署名を集めている。",
+      "その行動力は圧倒的だった。"
+    ]
+  },
+  {  // 139
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "広場に、理事長が現れた。",
+      "学生たちのざわめきが一気に静まる。"
+    ]
+  },
+  {  // 140
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "「大学は学問の場だ。恋愛は不要。」",
+      "理事長の声はよく響いた。"
+    ]
+  },
+  {  // 141
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "庆は前に出て言った。",
+      "「恋愛が人生を狂わせるんじゃない。誰かの幸せを一方的に否定することが、人を壊すんです。」"
+    ]
+  },
+  {  // 142
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "学生たちは静かに耳を傾けていた。",
+      "理事長の目には、一瞬だけ迷いの色が浮かんだように見えた。"
+    ]
+  },
+  {  // 143
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "「……規定は、明日の会議で最終決定する。」",
+      "そう告げて、理事長は踵を返した。"
+    ]
+  },
+  {  // 144
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "決戦の場が決まってしまった現実に、四人は互いの顔を見る。",
+      "逃げ道は、もうどこにもなかった。<br><br>——第14章 終了——"
+    ]
+  },
+  {  // 145
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "夜、自習室に四人が集まっていた。",
+      "明日の最終会議で、理事長が規定を確定させるという。"
+    ]
+  },
+  {  // 146
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "「明日が決戦だ。」庆は机に広げた資料を見つめながら、深く息を吐いた。",
+      "皓文は肩を回して、「やるしかねえな」と笑う。"
+    ]
+  },
+  {  // 147
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "张佳豪は腕を組みながら言った。",
+      "「妹のためにも、絶対に負けられない。」"
+    ]
+  },
+  {  // 148
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "雨姐は黙って庆の袖をつかんでいた。",
+      "「先輩……私、怖い。」"
+    ]
+  },
+  {  // 149
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "「大丈夫だ。」庆はその手を包み込む。",
+      "「お前と一緒なら、何でも乗り越えられる。」"
+    ]
+  },
+  {  // 150
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "四人は、理事長に提出する資料を何度も確認した。",
+      "恋愛禁止がいかに不合理か、言葉を磨いていく。"
+    ]
+  },
+  {  // 151 （選択肢シーン）
+    bg: "images/bg_classroom_night.jpg",
+    type: "choice",
+    lines: [
+      "明日の決戦を前に、庆は決意を迫られている。"
+    ],
+    choices: [
+      { text: "それでも雨姐を信じて、一緒に戦う。", next: 152 },
+      { text: "自分だけ一歩引いて、雨姐の将来を優先する。", next: 167 }
+    ]
+  },
+  {  // 152
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "翌日、会議室には教職員と学生代表が集まっていた。",
+      "理事長の前に、四人が並んで立つ。"
+    ]
+  },
+  {  // 153
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "庆が資料を手渡し、率直に語り出す。",
+      "「規定は、学生の自由と成長を妨げます。」"
+    ]
+  },
+  {  // 154
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "皓文が続ける。「正しい恋愛は、人を前に進ませる。」",
+      "「禁止するより、正しい形を教えるべきです。」"
+    ]
+  },
+  {  // 155
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "张佳豪も言った。「妹は、庆のおかげで恐怖症を克服しつつある。」",
+      "「彼女の人生にマイナスなんて、ひとつもない。」"
+    ]
+  },
+  {  // 156
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "最後に、雨姐が前に出た。",
+      "「私は怖いものがたくさんあります。」"
+    ]
+  },
+  {  // 157
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "「でも、先輩となら前に進める。」",
+      "「だから……この恋を、否定しないでください。」"
+    ]
+  },
+  {  // 158
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "理事長は長い沈黙のあと、重い口を開いた。",
+      "「……お前たちの言葉は、立派だ。」"
+    ]
+  },
+  {  // 159
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "「規定は……撤回する。」",
+      "「学生の自由を完全に奪うのも、本意ではない。」"
+    ]
+  },
+  {  // 160
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "その言葉に、室内がざわめいた。",
+      "雨姐は泣きそうな顔で庆を見つめる。"
+    ]
+  },
+  {  // 161
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "外に出ると、空は眩しいほど晴れていた。",
+      "四人の影が並んで、長く伸びている。"
+    ]
+  },
+  {  // 162
+    bg: "images/bg_school_road_snow.jpg",
+    lines: [
+      "しばらくして迎えた冬の日、通学路。",
+      "庆と雨姐は、あの日と同じ場所で立ち止まっていた。"
+    ]
+  },
+  {  // 163
+    bg: "images/bg_school_road_snow.jpg",
+    lines: [
+      "「先輩、私、前よりずっと歩けるようになったよ。」",
+      "「知ってる。」庆は笑う。「これからも、一緒に歩いていこう。」"
+    ]
+  },
+  {  // 164
+    bg: "images/bg_gate_snow.jpg",
+    lines: [
+      "数年後、同じような雪の日に、二人は今度こそ本当に",
+      "“家族になる”約束を交わすことになる。"
+    ]
+  },
+  {  // 165
+    bg: "images/bg_gate_snow.jpg",
+    lines: [
+      "東北の冷たい空気の中で、手のぬくもりだけがやけに温かい。",
+      "雨姐は微笑みながら、そっと庆の腕に絡んだ。"
+    ]
+  },
+  {  // 166
+    bg: "images/bg_gate_snow.jpg",
+    lines: [
+      "「これからも、私の一歩前を歩いてね。」",
+      "「ああ。」庆は頷く。「たまには、隣もな。」<br><br>——HAPPY END——"
+    ]
+  },
+  {  // 167
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "会議の日、理事長は最後まで一切譲らなかった。",
+      "「規定はこのままだ。私情に流される者は、本学には不要だ。」"
+    ]
+  },
+  {  // 168
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "四人が積み上げた言葉は、そこであっさりと切り捨てられた。",
+      "廊下の空気は、凍るように重い。"
+    ]
+  },
+  {  // 169
+    bg: "images/bg_corridor.jpg",
+    lines: [
+      "会議室を出たところで、雨姐は壁にもたれかかっていた。",
+      "顔色は悪く、手は小刻みに震えている。"
+    ]
+  },
+  {  // 170
+    bg: "images/bg_corridor.jpg",
+    lines: [
+      "「……ごめん。」雨姐の声はかすれていた。",
+      "「私、どうしたらいいか分からない。」"
+    ]
+  },
+  {  // 171
+    bg: "images/bg_corridor.jpg",
+    lines: [
+      "「一緒に戦うって決めただろ。」庆がそう言うと、",
+      "雨姐はかすかに首を振った。"
+    ]
+  },
+  {  // 172
+    bg: "images/bg_corridor.jpg",
+    lines: [
+      "「先輩は、私を守れなかった。」",
+      "「理事長は、私の“怖さ”を利用してでも居場所をくれた。」"
+    ]
+  },
+  {  // 173
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "それから数日、雨姐は庆の前からふっと姿を消す時間が増えた。",
+      "授業には出ているのに、なぜか視界に入らない。"
+    ]
+  },
+  {  // 174
+    bg: "images/bg_corridor.jpg",
+    lines: [
+      "ある日、庆は理事長室の近くで雨姐を見つけた。",
+      "彼女は警備員から何か書類を受け取っている。"
+    ]
+  },
+  {  // 175
+    bg: "images/bg_corridor.jpg",
+    lines: [
+      "理事長がドアから出てきて、穏やかな笑みを向けた。",
+      "「君なら任せられる。」"
+    ]
+  },
+  {  // 176
+    bg: "images/bg_corridor.jpg",
+    lines: [
+      "「期待に応えられるよう、努力します。」",
+      "雨姐は、硬い表情のまま、はっきりとうなずいた。"
+    ]
+  },
+  {  // 177
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "夜、自習室に呼び出した。",
+      "もう逃げずに話をしないといけないと思ったからだ。"
+    ]
+  },
+  {  // 178
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "「理事長の補佐って、どういうことだ。」",
+      "庆の問いに、雨姐は少しだけ肩を揺らした。"
+    ]
+  },
+  {  // 179
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "「そのままの意味だよ。」",
+      "「規定に従って、学内の“問題”を減らす役割。」"
+    ]
+  },
+  {  // 180
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "「お前は、あいつの側に立つってことか。」",
+      "「俺じゃなくて、あいつを選ぶのか。」"
+    ]
+  },
+  {  // 181
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "「先輩は、私を守れなかった。」",
+      "「理事長は、私の“怖さ”を利用してでも居場所をくれた。」"
+    ]
+  },
+  {  // 182
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "雨姐はポケットから、小さなキーホルダーを取り出した。",
+      "最初の冬の日に、庆からもらったものだ。"
+    ]
+  },
+  {  // 183
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "「これは、返す。」",
+      "机の上に置かれた音が、妙に大きく響いた。"
+    ]
+  },
+  {  // 184
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "「嫌いになったわけじゃない。」",
+      "「でも、隣に立てるほど、私は強くない。」"
+    ]
+  },
+  {  // 185
+    bg: "images/bg_classroom_night.jpg",
+    lines: [
+      "「さよなら、先輩。」",
+      "そう告げて、雨姐は振り返らずに自習室を去っていった。"
+    ]
+  },
+  {  // 186
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "それから、雨姐は本当に「模範的な学生」になった。",
+      "遅刻もサボりもない。理事長の近くで、事務的に働いている。"
+    ]
+  },
+  {  // 187
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "キャンパスの隅では、様々な噂が流れ始めた。",
+      "「理事長に気に入られてるらしい」「卒業したら職員になるってよ」"
+    ]
+  },
+  {  // 188
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "卒業式の日、庆は校門の近くで彼女を見つけた。",
+      "理事長と教職員のそばで、淡々と受付の手伝いをしている。"
+    ]
+  },
+  {  // 189
+    bg: "images/bg_schoolyard_day.jpg",
+    lines: [
+      "一瞬だけ目が合った気がした。",
+      "しかし、その視線はすぐに理事長のほうへ戻っていった。"
+    ]
+  },
+  {  // 190
+    bg: "images/bg_gate_snow.jpg",
+    lines: [
+      "式が終わり、校門を出るとき、庆は空を見上げた。",
+      "昔と同じような雪雲が、ゆっくりと流れている。"
+    ]
+  },
+  {  // 191
+    bg: "images/bg_gate_snow.jpg",
+    lines: [
+      "ポケットの中には、返されたキーホルダーだけが残っていた。",
+      "新しい季節の匂いがするはずなのに、胸の中だけは、あの日の雪のままだった。<br><br>——BAD END——"
+    ]
+  }
+];
+
+/* ===== ここから下はエンジン部分（基本いじらなくてOK） ===== */
+const bgEl = document.getElementById("bg");
+const nameEl = document.getElementById("name");
+const textEl = document.getElementById("text");
+const buttonsEl = document.getElementById("buttons");
+const nextBtn = document.getElementById("nextBtn");
+
+let currentIndex = 0;
+let lineIndex = 0;
+
+function showScene(idx) {
+  const scene = scenes[idx];
+  if (!scene) return;
+  currentIndex = idx;
+  lineIndex = 0;
+
+  bgEl.style.backgroundImage = `url(${scene.bg})`;
+  updateText();
+
+  buttonsEl.innerHTML = "";
+  buttonsEl.appendChild(nextBtn);
+  nextBtn.style.display = "inline-block";
+  nextBtn.disabled = false;
+}
+
+function updateText() {
+  const scene = scenes[currentIndex];
+  const line = scene.lines[lineIndex] || "";
+  const m = line.match(/^\[(.+?)\]\s*(.*)$/);
+  if (m) {
+    nameEl.textContent = m[1];
+    textEl.textContent = m[2];
+  } else {
+    nameEl.textContent = "";
+    textEl.textContent = line;
+  }
+}
+
+nextBtn.addEventListener("click", () => {
+  const scene = scenes[currentIndex];
+  if (!scene) return;
+
+  if (lineIndex < scene.lines.length - 1) {
+    lineIndex++;
+    updateText();
+    return;
+  }
+
+  if (scene.type === "choice" && scene.choices) {
+    buttonsEl.innerHTML = "";
+    scene.choices.forEach(ch => {
+      const btn = document.createElement("button");
+      btn.className = "choiceBtn";
+      btn.textContent = ch.text;
+      btn.onclick = () => showScene(ch.next);
+      buttonsEl.appendChild(btn);
+    });
+  } else {
+    const nextIdx =
+      typeof scene.next === "number" ? scene.next : currentIndex + 1;
+    if (scenes[nextIdx]) {
+      showScene(nextIdx);
+    } else {
+      nextBtn.disabled = true;
+    }
+  }
+});
+
+// スタート
+showScene(0);
+  </script>
+</body>
+</html>
